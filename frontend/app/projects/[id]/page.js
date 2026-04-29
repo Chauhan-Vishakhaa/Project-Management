@@ -44,7 +44,7 @@ export default function ProjectDetailPage() {
 
   const fetchProject = async (token) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/projects/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -69,7 +69,7 @@ export default function ProjectDetailPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/projects/${id}/members`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}/members`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export default function ProjectDetailPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:5000/api/tasks", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -142,7 +142,7 @@ export default function ProjectDetailPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks/${taskId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -165,7 +165,7 @@ export default function ProjectDetailPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks/${taskId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -184,7 +184,7 @@ export default function ProjectDetailPage() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/projects/${id}/members/${memberId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${id}/members/${memberId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },

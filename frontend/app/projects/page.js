@@ -30,7 +30,7 @@ export default function ProjectsPage() {
 
   const fetchProjects = async (token) => {
     try {
-      const res = await fetch("http://localhost:5000/api/projects", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -48,7 +48,7 @@ export default function ProjectsPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:5000/api/projects", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
