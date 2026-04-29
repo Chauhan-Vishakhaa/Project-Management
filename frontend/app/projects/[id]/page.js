@@ -62,7 +62,7 @@ export default function ProjectDetailPage() {
     }
   };
 
-  // ─── ADD MEMBER ─────────────────────────────────────────
+
   const handleAddMember = async (e) => {
     e.preventDefault();
     setMemberError("");
@@ -94,7 +94,7 @@ export default function ProjectDetailPage() {
     }
   };
 
-  // ─── CREATE TASK ─────────────────────────────────────────
+
   const handleCreateTask = async (e) => {
     e.preventDefault();
     setTaskError("");
@@ -137,7 +137,7 @@ export default function ProjectDetailPage() {
     }
   };
 
-  // ─── UPDATE TASK STATUS ──────────────────────────────────
+
   const handleStatusChange = async (taskId, newStatus) => {
     const token = localStorage.getItem("token");
 
@@ -159,7 +159,7 @@ export default function ProjectDetailPage() {
     }
   };
 
-  // ─── DELETE TASK ─────────────────────────────────────────
+
   const handleDeleteTask = async (taskId) => {
     if (!confirm("Delete this task?")) return;
     const token = localStorage.getItem("token");
@@ -178,7 +178,6 @@ export default function ProjectDetailPage() {
     }
   };
 
-  // ─── REMOVE MEMBER ───────────────────────────────────────
   const handleRemoveMember = async (memberId) => {
     if (!confirm("Remove this member?")) return;
     const token = localStorage.getItem("token");
@@ -308,7 +307,7 @@ export default function ProjectDetailPage() {
                       />
                     </div>
 
-                    {/* Assign to member dropdown */}
+         
                     <div className="mb-3">
                       <label className="block text-sm font-medium mb-1">Assign To</label>
                       <select

@@ -1,6 +1,5 @@
 const pool = require("../db");
 
-// ─── GET ALL TASKS FOR A PROJECT ──────────────────────────
 const getTasksByProject = async (projectId) => {
   const result = await pool.query(
     `SELECT t.*, 
@@ -11,12 +10,11 @@ const getTasksByProject = async (projectId) => {
      LEFT JOIN users u2 ON u2.id = t.created_by
      WHERE t.project_id = $1
      ORDER BY t.created_at DESC`,
-    [projectId]
+    [projectId],
   );
   return result.rows;
 };
 
-// ─── GET SINGLE TASK ──────────────────────────────────────
 const getTaskById = async (taskId) => {
   const result = await pool.query(
     `SELECT t.*,
@@ -26,19 +24,25 @@ const getTaskById = async (taskId) => {
      LEFT JOIN users u ON u.id = t.assigned_to
      LEFT JOIN users u2 ON u2.id = t.created_by
      WHERE t.id = $1`,
-    [taskId]
+    [taskId],
   );
   return result.rows[0];
 };
 
-// ─── CREATE TASK ──────────────────────────────────────────
-const createTask = async (title, description, projectId, assignedTo, priority, dueDate, createdBy) => {
-  // Check if assigned user is a member of the project
+const createTask = async (
+  title,
+  description,
+  projectId,
+  assignedTo,
+  priority,
+  dueDate,
+  createdBy,
+) => {
   if (assignedTo) {
     const isMember = await pool.query(
       `SELECT id FROM project_members
        WHERE project_id = $1 AND user_id = $2`,
-      [projectId, assignedTo]
+      [projectId, assignedTo],
     );
     if (isMember.rows.length === 0) {
       throw new Error("Assigned user is not a member of this project");
@@ -49,16 +53,22 @@ const createTask = async (title, description, projectId, assignedTo, priority, d
     `INSERT INTO tasks (title, description, project_id, assigned_to, priority, due_date, created_by)
      VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING *`,
-    [title, description, projectId, assignedTo || null, priority || "medium", dueDate || null, createdBy]
+    [
+      title,
+      description,
+      projectId,
+      assignedTo || null,
+      priority || "medium",
+      dueDate || null,
+      createdBy,
+    ],
   );
   return result.rows[0];
 };
 
-// ─── UPDATE TASK ──────────────────────────────────────────
-// Member can update status
-// Admin can update everything
 const updateTask = async (taskId, fields) => {
-  const { title, description, status, priority, due_date, assigned_to } = fields;
+  const { title, description, status, priority, due_date, assigned_to } =
+    fields;
 
   const result = await pool.query(
     `UPDATE tasks
@@ -70,20 +80,15 @@ const updateTask = async (taskId, fields) => {
          assigned_to = COALESCE($6, assigned_to)
      WHERE id = $7
      RETURNING *`,
-    [title, description, status, priority, due_date, assigned_to, taskId]
+    [title, description, status, priority, due_date, assigned_to, taskId],
   );
   return result.rows[0];
 };
 
-// ─── DELETE TASK ──────────────────────────────────────────
 const deleteTask = async (taskId) => {
-  await pool.query(
-    `DELETE FROM tasks WHERE id = $1`,
-    [taskId]
-  );
+  await pool.query(`DELETE FROM tasks WHERE id = $1`, [taskId]);
 };
 
-// ─── GET TASKS ASSIGNED TO A USER ─────────────────────────
 const getMyTasks = async (userId) => {
   const result = await pool.query(
     `SELECT t.*,
@@ -94,7 +99,7 @@ const getMyTasks = async (userId) => {
      LEFT JOIN users u ON u.id = t.assigned_to
      WHERE t.assigned_to = $1
      ORDER BY t.due_date ASC NULLS LAST`,
-    [userId]
+    [userId],
   );
   return result.rows;
 };

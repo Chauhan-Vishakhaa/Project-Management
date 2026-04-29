@@ -4,17 +4,20 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect } from "react";
 
-
 export default function SignupPage() {
-        useEffect(() => {
-      const token = localStorage.getItem("token");
-    
-      if (token) {
-        router.replace("/dashboard"); // 🔥 redirect if already logged in
-      }
-    }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.replace("/dashboard"); // 🔥 redirect if already logged in
+    }
+  }, []);
   const router = useRouter();
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -57,7 +60,6 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded shadow w-full max-w-md">
-
         {/* Title */}
         <h1 className="text-2xl font-bold text-center mb-6">Task Manager</h1>
         <h2 className="text-lg font-semibold mb-4">Create Account</h2>
